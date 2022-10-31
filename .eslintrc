@@ -1,0 +1,18 @@
+{
+  "plugins": [
+    "import"
+  ],
+  "extends": [
+    "airbnb-typescript/base"
+  ],
+  "rules": {
+    "no-restricted-syntax": "off",
+    "consistent-return": "off",
+    "no-underscore-dangle": "off",
+    "@typescript-eslint/lines-between-class-members": "off"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "project": "./tsconfig.json"
+  }
+}

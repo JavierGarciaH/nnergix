@@ -1,0 +1,12 @@
+.dockerignore
+.eslintrc
+.git
+.gitignore
+.github
+.vscode
+.coverage
+.env
+./docs/*
+!./docs/openapi.yaml
+node_modules
+README.md

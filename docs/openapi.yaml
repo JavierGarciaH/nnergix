@@ -1,0 +1,89 @@
+openapi: 3.0.0
+info:
+  title: Nnergix test
+  version: 0.0.1
+  description: |-
+    This service provide the functionality needed to get links from url
+  contact:
+    name: Javier Garcia
+    email: javi.ghin@gmail.com
+tags:
+  - name: "Url"
+    description: "Url search"
+paths:
+  /url:
+    get:
+      tags:
+        - "Url"
+      summary: get links from url searched.
+      parameters:
+        - $ref: "#/components/parameters/url"
+        - $ref: "#/components/parameters/depth"
+      responses:
+        "200":
+          description: "get links from url searched"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: "search identity"
+                    searchedUrl:
+                      type: string
+                      description: "url searched"
+                    depth:
+                      type: string
+                      description: "depth search"
+                    url:
+                      type: array
+                      items:
+                        type: string
+                      description: "url list result"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/unknownError"
+components:
+  schemas:
+    Error:
+      properties:
+        message:
+          type: string
+          description: Message describing the error
+  responses:
+    BadRequest:
+      description: "format path or body is not valid"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: "string"
+    unknownError:
+      description: "unexpected error"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: "string"
+  parameters:
+    url:
+      name: url
+      in: query
+      schema:
+        type: string
+      description: "url to search links"
+      required: true
+    depth:
+      name: depth
+      in: query
+      schema:
+        type: number
+      description: "search depth"

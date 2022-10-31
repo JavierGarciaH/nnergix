@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mongodb_container:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+  nnergix:
+    tty: true
+    build: ../
+    environment:
+      DB_NAME: nnergix
+      DB_HOST: mongodb://mongodb_container
+      NODE_PORT: 3000
+    ports:
+      - "3000:3000"
+volumes:
+  mongodb_data_container:
