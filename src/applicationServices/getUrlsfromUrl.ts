@@ -5,24 +5,24 @@ import { Either } from '../shared/core/either';
 
 export class GetUrlsFromUrl {
 
-  private getHtmlText = async (url: string): Promise<string | undefined> => {
+  public getHtmlText = async (url: string): Promise<string | undefined> => {
     try {
       const page = await fetch(url, { method: 'GET' });
       if (page.ok) {
-        return page.text()
+        return  await page.text();
       }
     } catch { }
-  }
+  };
 
   private findHiperlinkTag = (text: string): { hyperlink: string, hyperlinkEnd: number } | undefined => {
     const hyperlinkStart = text.indexOf('<a');
-    const hyperlinkEnd = text.indexOf('>', hyperlinkStart)
+    const hyperlinkEnd = text.indexOf('>', hyperlinkStart);
     if (hyperlinkStart === -1) return;
     return {
       hyperlink: text.substring(hyperlinkStart, hyperlinkEnd),
       hyperlinkEnd,
-    }
-  }
+    };
+  };
 
   private findUrl = (text: string): string[] => {
     const hiperlinkOrError = this.findHiperlinkTag(text);
@@ -36,7 +36,7 @@ export class GetUrlsFromUrl {
     hrefStart += 6;
     const result = hyperlink.substring(hrefStart, hyperlink.indexOf('"', hrefStart));
     return [result].concat(this.findUrl(text.substring(hyperlinkEnd)));
-  }
+  };
 
 
   public getUrlList = async (url: string): Promise<Either<BaseError, string[]>> => {
@@ -46,5 +46,5 @@ export class GetUrlsFromUrl {
     }
     const result = this.findUrl(text);
     return Either.right(result);
-  }
+  };
 }

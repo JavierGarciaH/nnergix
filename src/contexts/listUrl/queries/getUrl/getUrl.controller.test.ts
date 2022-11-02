@@ -13,12 +13,28 @@ beforeAll(async () => {
 
 afterAll(async () => app.close());
 
-describe('attendanceLog', () => {
-  test('GET /?url=amazon&searchDepth=1', async () => {
+describe('GET url Controller test', () => {
+  test('GET url without required url param', async () => {
     const res = await client
       .get('/url');
     expect(res.status).toBe(400);
     expect(typeof res.body).toBe('object');
     expect(res.body.message).toBe('Bad request');
+  });
+
+  test('GET url without results', async () => {
+    const res = await client
+      .get('/url?url=marca&depth=1');
+    expect(res.status).toBe(200);
+    expect(typeof res.body).toBe('object');
+    expect(res.body).toStrictEqual([]);
+  });
+
+  test('GET url with results', async () => {
+    const res = await client
+      .get('/url?url=https://marca.com&depth=0');
+    expect(res.status).toBe(200);
+    expect(typeof res.body).toBe('object');
+    expect(res.body.length).toBeGreaterThan(0);
   });
 });
